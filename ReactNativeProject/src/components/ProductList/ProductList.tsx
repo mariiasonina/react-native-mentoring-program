@@ -1,10 +1,10 @@
 import React from 'react';
 import { View } from 'react-native';
 import { styles } from './styles';
-import { ProductItem } from '../ProductItem/ProductItem';
+import { ProductItem } from '@components/ProductItem/ProductItem';
 
 // temporary data
-const mockProducts = [
+export const mockProducts = [
 	{
 		id: '0',
 		name: 'Xiaomi Mi A3',
