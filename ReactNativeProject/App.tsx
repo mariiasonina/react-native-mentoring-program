@@ -1,11 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
-import { MainPage } from './src/components/MainPage/MainPage';
+// import { MainPage } from '@screens/MainPage/MainPage';
+import { ProductDetailsPage } from '@screens/ProductDetailsPage/ProductDetailsPage';
 
 function App(): JSX.Element {
 	return (
 		<View>
-			<MainPage />
+			{/* <MainPage /> */}
+			<ProductDetailsPage />
 		</View>
 	);
 }

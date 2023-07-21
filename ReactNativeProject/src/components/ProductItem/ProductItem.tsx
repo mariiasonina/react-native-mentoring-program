@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Text, Image, ImageSourcePropType } from 'react-native';
+import { View, Image, ImageSourcePropType } from 'react-native';
+import { ProductMainInfo } from '@components/ProductMainInfo/ProductMainInfo';
+import { effects } from '@styles/effects';
 import { styles } from './styles';
 
 type Props = {
@@ -14,21 +16,12 @@ type Props = {
 
 export const ProductItem = ({ product }: Props): JSX.Element => {
 	const { name, imagePath, newPrice, oldPrice } = product;
-	const diff = oldPrice - newPrice;
-	const discount = diff > 0 ? `${Math.round((diff / oldPrice) * 100)}%` : null;
 
 	return (
 		<View style={styles.productContainer}>
-			<View style={[styles.product, styles.shadow]}>
+			<View style={[styles.product, effects.shadow]}>
 				<Image style={styles.productImage} source={imagePath} />
-				<Text style={styles.productName}>{name}</Text>
-				<View style={styles.productPriceBar}>
-					<Text style={styles.productNewPrice}>${newPrice}</Text>
-					<Text style={styles.productOldPrice}>${oldPrice}</Text>
-					{discount && (
-						<Text style={styles.productDiscount}>${discount} Off</Text>
-					)}
-				</View>
+				<ProductMainInfo name={name} newPrice={newPrice} oldPrice={oldPrice} />
 			</View>
 		</View>
 	);
