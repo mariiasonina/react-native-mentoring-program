@@ -1,17 +1,14 @@
 import React from 'react';
-import { View } from 'react-native';
-import { MainPage } from '@screens/MainPage/MainPage';
+// import { MainPage } from '@screens/MainPage/MainPage';
 import DataProvider from '@src/context/DataProvider';
-// import { ProductDetailsPage } from '@screens/ProductDetailsPage/ProductDetailsPage';
+import { ProductDetailsPage } from '@screens/ProductDetailsPage/ProductDetailsPage';
 
 function App(): JSX.Element {
 	return (
-		<View>
-			<DataProvider>
-				<MainPage />
-				{/* <ProductDetailsPage /> */}
-			</DataProvider>
-		</View>
+		<DataProvider>
+			{/* <MainPage /> */}
+			<ProductDetailsPage />
+		</DataProvider>
 	);
 }
 

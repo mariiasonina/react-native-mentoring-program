@@ -13,13 +13,21 @@ type Props = {
 const DataProvider = ({ children }: Props) => {
 	const [data, setData] = useState<ConvertedProductsDataType>([]);
 
+	const getData = async () => {
+		const responseData = await fetchData();
+
+		setData(convertProductsData(responseData.data, responseData.included));
+	};
+
 	useEffect(() => {
-		fetchData().then(responseData =>
-			setData(convertProductsData(responseData.data, responseData.included)),
-		);
+		getData();
 	}, []);
 
-	return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
+	return (
+		<DataContext.Provider value={{ data, refreshData: getData }}>
+			{children}
+		</DataContext.Provider>
+	);
 };
 
 export default DataProvider;

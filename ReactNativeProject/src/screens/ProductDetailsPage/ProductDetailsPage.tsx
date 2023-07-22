@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, Text, ScrollView, RefreshControl } from 'react-native';
 import { Button } from '@rneui/themed';
 import { DialogLoading } from '@rneui/base/dist/Dialog/Dialog.Loading';
 import { ConvertedProductType } from '@src/dataConverters/convertProductsData';
@@ -11,8 +11,17 @@ import { effects } from '@styles/effects';
 import { styles } from './styles';
 
 export const ProductDetailsPage = (): JSX.Element => {
-	const data = useData();
+	const { data, refreshData } = useData();
 	const [product, setProduct] = useState<ConvertedProductType | null>(null);
+	const [refreshing, setRefreshing] = useState(false);
+
+	const onRefresh = useCallback(async () => {
+		setRefreshing(true);
+
+		await refreshData();
+
+		setRefreshing(false);
+	}, [refreshData]);
 
 	useEffect(() => {
 		if (data && data.length) {
@@ -21,7 +30,11 @@ export const ProductDetailsPage = (): JSX.Element => {
 	}, [data]);
 
 	return (
-		<ScrollView stickyHeaderIndices={[0]}>
+		<ScrollView
+			stickyHeaderIndices={[0]}
+			refreshControl={
+				<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+			}>
 			<TopBar leftIconName="arrow-back" rightIconName="favorite-border" />
 			<View style={styles.productDetailsContainer}>
 				{product ? (

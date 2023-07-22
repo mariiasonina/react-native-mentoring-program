@@ -1,14 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-	productList: {
-		flexDirection: 'row',
-		flexWrap: 'wrap',
-		justifyContent: 'space-between',
-		padding: 10,
-		alignItems: 'center',
+	productListContainer: {
+		paddingVertical: 10,
+		flex: 1,
 	},
-	loader: {
-		flexGrow: 1,
+	productList: {
+		paddingHorizontal: 10,
 	},
 });
