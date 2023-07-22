@@ -3,18 +3,31 @@ import { View, Image } from 'react-native';
 import { styles } from './styles';
 import { Icon } from '@rneui/themed';
 
-const staticImage = require('../../assets/images/product-xiaomi_250_250.png');
+type Props = {
+	images: {
+		id: string;
+		url_size_100: string;
+		url_size_240: string;
+	}[];
+};
 
-export const Slider = (): JSX.Element => (
+export const Slider = ({ images }: Props): JSX.Element => (
 	<View style={styles.sliderContainer}>
 		<Icon iconStyle={styles.icon} name="arrow-back-ios" type="material" />
 		<View style={styles.contentContainer}>
-			<Image source={staticImage} />
+			<Image
+				style={styles.productImage}
+				source={{
+					uri: `https://demo.spreecommerce.org${images[0].url_size_240}`,
+				}}
+			/>
 			<View style={styles.dots}>
-				<View style={styles.dot} />
-				<View style={[styles.dot, styles.activeDot]} />
-				<View style={styles.dot} />
-				<View style={styles.dot} />
+				{images.map(({ id }, index) => (
+					<View
+						key={id}
+						style={!index ? [styles.dot, styles.activeDot] : styles.dot}
+					/>
+				))}
 			</View>
 		</View>
 		<Icon iconStyle={styles.icon} name="arrow-forward-ios" type="material" />

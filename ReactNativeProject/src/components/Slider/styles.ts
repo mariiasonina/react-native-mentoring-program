@@ -9,6 +9,10 @@ export const styles = StyleSheet.create({
 	contentContainer: {
 		gap: 30,
 	},
+	productImage: {
+		width: 240,
+		height: 240,
+	},
 	icon: {
 		fontSize: 25,
 		color: '#C3C3C3',

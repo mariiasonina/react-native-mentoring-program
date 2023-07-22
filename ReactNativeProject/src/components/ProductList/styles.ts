@@ -6,5 +6,9 @@ export const styles = StyleSheet.create({
 		flexWrap: 'wrap',
 		justifyContent: 'space-between',
 		padding: 10,
+		alignItems: 'center',
+	},
+	loader: {
+		flexGrow: 1,
 	},
 });
