@@ -1,33 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { fetchData } from '@src/api/api';
 import {
-	ConvertedProductsDataType,
-	convertProductsData,
+  ConvertedProductsDataType,
+  convertProductsData,
 } from '@src/dataConverters/convertProductsData';
 import DataContext from './DataContext';
 
 type Props = {
-	children: React.ReactNode;
+  children: React.ReactNode;
 };
 
 const DataProvider = ({ children }: Props) => {
-	const [data, setData] = useState<ConvertedProductsDataType>([]);
+  const [data, setData] = useState<ConvertedProductsDataType>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
-	const getData = async () => {
-		const responseData = await fetchData();
+  const refreshData = async () => {
+    setRefreshing(true);
 
-		setData(convertProductsData(responseData.data, responseData.included));
-	};
+    const responseData = await fetchData();
 
-	useEffect(() => {
-		getData();
-	}, []);
+    setData(convertProductsData(responseData.data, responseData.included));
 
-	return (
-		<DataContext.Provider value={{ data, refreshData: getData }}>
-			{children}
-		</DataContext.Provider>
-	);
+    setRefreshing(false);
+  };
+
+  useEffect(() => {
+    refreshData();
+  }, []);
+
+  return (
+    <DataContext.Provider value={{ data, onRefresh: refreshData, refreshing }}>
+      {children}
+    </DataContext.Provider>
+  );
 };
 
 export default DataProvider;

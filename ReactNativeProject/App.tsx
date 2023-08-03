@@ -1,15 +1,26 @@
 import React from 'react';
-// import { MainPage } from '@screens/MainPage/MainPage';
+import { NavigationContainer } from '@react-navigation/native';
 import DataProvider from '@src/context/DataProvider';
-import { ProductDetailsPage } from '@screens/ProductDetailsPage/ProductDetailsPage';
+import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import StackNavigator from '@src/navigation/StackNavigator';
 
 function App(): JSX.Element {
-	return (
-		<DataProvider>
-			{/* <MainPage /> */}
-			<ProductDetailsPage />
-		</DataProvider>
-	);
+  return (
+    <SafeAreaView style={styles.app}>
+      <StatusBar backgroundColor="#000000" />
+      <DataProvider>
+        <NavigationContainer>
+          <StackNavigator />
+        </NavigationContainer>
+      </DataProvider>
+    </SafeAreaView>
+  );
 }
 
 export default App;
+
+const styles = StyleSheet.create({
+  app: {
+    flex: 1,
+  },
+});
