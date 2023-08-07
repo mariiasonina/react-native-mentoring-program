@@ -6,19 +6,17 @@ export const styles = StyleSheet.create({
     paddingTop: 43,
     paddingBottom: 10,
   },
-  infoContainer: {
-    gap: 10,
-  },
   infoTitle: {
     fontSize: 20,
     color: '#4A4A4A',
     fontWeight: '700',
     paddingVertical: 5,
+    marginVertical: 10,
   },
   infoValue: {
     paddingVertical: 5,
     paddingHorizontal: 10,
-    backgroundColor: '#F3F3F3',
+    backgroundColor: '#F7F7F7',
     alignSelf: 'flex-start',
   },
   descriptionText: {
@@ -26,13 +24,13 @@ export const styles = StyleSheet.create({
     textAlign: 'justify',
     color: '#4A4A4A',
   },
-  bottomLine: {
-    paddingBottom: 20,
+  divider: {
+    paddingTop: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#8F8F8F',
   },
   button: {
-    paddingVertical: 10,
+    paddingTop: 10,
   },
   productName: {
     color: '#000000',

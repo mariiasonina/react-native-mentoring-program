@@ -38,45 +38,36 @@ export const ProductDetailsScreen = ({ route }: Props): JSX.Element => {
     <ScrollView
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
-      <View style={styles.productDetailsContainer}>
-        {product ? (
-          <>
-            <Slider
-              productId={product.id}
-              images={product.images.slice(0, 4)}
-              width={Sizes.s240x240.width}
-              height={Sizes.s240x240.height}
-            />
-            <View style={styles.infoContainer}>
-              <View style={styles.bottomLine}>
-                <ProductMainInfo
-                  name={product.name}
-                  newPrice={product.price}
-                  oldPrice={product.oldPrice}
-                />
-              </View>
-              <View style={styles.bottomLine}>
-                <Text style={styles.infoTitle}>Select Color</Text>
-                <View style={styles.infoValue}>
-                  <Text>Blue</Text>
-                </View>
-              </View>
-              <View>
-                <Text style={styles.infoTitle}>Description</Text>
-                <Text style={styles.descriptionText}>
-                  {product.description}
-                </Text>
-              </View>
-            </View>
-            <View style={[styles.button, effects.shadow]}>
-              <Button title="Add to cart" color="#008ACE" />
-            </View>
-          </>
-        ) : (
-          <ActivityIndicator size="large" color="#008ACE" />
-        )}
-      </View>
+      }
+      contentContainerStyle={styles.productDetailsContainer}>
+      {product ? (
+        <>
+          <Slider
+            productId={product.id}
+            images={product.images.slice(0, 4)}
+            width={Sizes.s240x240.width}
+            height={Sizes.s240x240.height}
+          />
+          <ProductMainInfo
+            name={product.name}
+            newPrice={product.price}
+            oldPrice={product.oldPrice}
+          />
+          <View style={styles.divider} />
+          <Text style={styles.infoTitle}>Select Color</Text>
+          <Text style={styles.infoValue}>Blue</Text>
+          <View style={styles.divider} />
+          <View>
+            <Text style={styles.infoTitle}>Description</Text>
+            <Text style={styles.descriptionText}>{product.description}</Text>
+          </View>
+          <View style={[styles.button, effects.shadow]}>
+            <Button title="Add to cart" color="#008ACE" />
+          </View>
+        </>
+      ) : (
+        <ActivityIndicator size="large" color="#008ACE" />
+      )}
     </ScrollView>
   );
 };

@@ -8,11 +8,11 @@ function App(): JSX.Element {
   return (
     <SafeAreaView style={styles.app}>
       <StatusBar backgroundColor="#000000" />
-      <DataProvider>
-        <NavigationContainer>
+      <NavigationContainer>
+        <DataProvider>
           <StackNavigator />
-        </NavigationContainer>
-      </DataProvider>
+        </DataProvider>
+      </NavigationContainer>
     </SafeAreaView>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View, ActivityIndicator } from 'react-native';
+import { FlatList, ActivityIndicator } from 'react-native';
 import { ProductItem } from '@components/ProductItem/ProductItem';
 import { useData } from '@src/context/DataContext';
 import { ConvertedProductType } from '@src/dataConverters/convertProductsData';
@@ -23,15 +23,14 @@ export const ProductList = (): JSX.Element => {
   }
 
   return (
-    <View style={styles.productListContainer}>
-      <FlatList
-        columnWrapperStyle={styles.productList}
-        data={data}
-        renderItem={renderProduct}
-        onRefresh={onRefresh}
-        numColumns={2}
-        refreshing={refreshing}
-      />
-    </View>
+    <FlatList
+      contentContainerStyle={styles.productList}
+      columnWrapperStyle={styles.columnWrapper}
+      data={data}
+      renderItem={renderProduct}
+      onRefresh={onRefresh}
+      numColumns={2}
+      refreshing={refreshing}
+    />
   );
 };

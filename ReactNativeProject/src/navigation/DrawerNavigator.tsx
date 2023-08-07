@@ -1,6 +1,6 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { TouchableOpacity } from 'react-native';
+import { Pressable } from 'react-native';
 import BurgerIcon from '@assets/images/icons/burger.svg';
 import { routes, screens } from './RouteItems';
 import { CustomDrawer } from './CustomDrawer';
@@ -10,11 +10,11 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
   const headerLeft = (navigation: any) => (
-    <TouchableOpacity
+    <Pressable
       onPress={() => navigation.toggleDrawer()}
       style={styles.headerLeft}>
       <BurgerIcon />
-    </TouchableOpacity>
+    </Pressable>
   );
 
   return (

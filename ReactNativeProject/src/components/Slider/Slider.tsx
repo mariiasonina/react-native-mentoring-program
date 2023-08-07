@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { View, Image, SafeAreaView } from 'react-native';
+import { View, Image, SafeAreaView, Pressable } from 'react-native';
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import ArrowLeftIcon from '@assets/images/icons/arrow-left.svg';
 import ArrowRightIcon from '@assets/images/icons/arrow-right.svg';
 import { ConvertedImageDataType } from '@src/dataConverters/convertImagesData';
@@ -60,7 +59,7 @@ export const Slider = ({
           scrollAnimationDuration={1000}
           onSnapToItem={onSnapToItem}
           renderItem={({ index }) => (
-            <TouchableOpacity
+            <Pressable
               onPress={() =>
                 navigation.navigate('ProductImages', { productId })
               }>
@@ -75,7 +74,7 @@ export const Slider = ({
                   }`,
                 }}
               />
-            </TouchableOpacity>
+            </Pressable>
           )}
         />
         <ArrowRightIcon onPress={showNextSlide} />
