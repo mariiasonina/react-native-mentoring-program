@@ -12,4 +12,9 @@ export const effects = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
   },
+  divider: {
+    paddingTop: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#8F8F8F',
+  },
 });

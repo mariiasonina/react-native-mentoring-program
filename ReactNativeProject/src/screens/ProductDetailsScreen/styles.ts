@@ -13,21 +13,23 @@ export const styles = StyleSheet.create({
     paddingVertical: 5,
     marginVertical: 10,
   },
-  infoValue: {
-    paddingVertical: 5,
+  optionValue: {
+    marginVertical: 5,
     paddingHorizontal: 10,
     backgroundColor: '#F7F7F7',
     alignSelf: 'flex-start',
+    borderWidth: 1,
+    borderColor: '#F7F7F7',
+    borderRadius: 2,
+  },
+  optionValueSelected: {
+    borderWidth: 1,
+    borderColor: '#8F8F8F',
   },
   descriptionText: {
     fontSize: 15,
     textAlign: 'justify',
     color: '#4A4A4A',
-  },
-  divider: {
-    paddingTop: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#8F8F8F',
   },
   button: {
     paddingTop: 10,

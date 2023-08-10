@@ -28,12 +28,15 @@ const DrawerNavigator = () => {
         drawerType: 'slide',
       })}
       drawerContent={CustomDrawer}>
-      {routes.map(({ name, component, ...options }) => (
+      {routes.map(({ name, component, headerRight, ...options }) => (
         <Drawer.Screen
           key={name}
           name={name}
           component={component}
-          options={options}
+          options={({ navigation }) => ({
+            headerRight: () => (headerRight ? headerRight(navigation) : null),
+            ...options,
+          })}
         />
       ))}
     </Drawer.Navigator>

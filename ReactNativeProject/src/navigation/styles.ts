@@ -57,4 +57,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     columnGap: 25,
   },
+  modal: {
+    backgroundColor: 'transparent',
+  },
 });

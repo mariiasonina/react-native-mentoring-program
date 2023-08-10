@@ -7,23 +7,29 @@ import {
   ActivityIndicator,
   Button,
 } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
-import { useData } from '@src/context/DataContext';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
+import { RootStackParamList } from '@src/navigation/StackNavigator';
+import { useData } from '@src/context/DataContext/DataContext';
 import { Slider } from '@components/Slider/Slider';
 import { ProductMainInfo } from '@components/ProductMainInfo/ProductMainInfo';
 import { effects } from '@styles/effects';
 import { Sizes } from '@src/dataConverters/constants';
 import { ConvertedProductType } from '@src/dataConverters/convertProductsData';
+import { useAppData } from '@src/context/AppContext/AppContext';
+import { useAuth } from '@src/context/AuthContext/AuthContext';
 import { styles } from './styles';
-import { RootStackParamList } from '@src/navigation/StackNavigator';
 
 type Props = {
   route: RouteProp<RootStackParamList, 'ProductDetails'>;
+  navigation: NavigationProp<RootStackParamList>;
 };
 
-export const ProductDetailsScreen = ({ route }: Props): JSX.Element => {
+export const ProductDetailsScreen = ({ route, navigation }: Props) => {
   const { data, onRefresh, refreshing } = useData();
+  const { addProductToCart } = useAppData();
+  const { isSignedIn } = useAuth();
   const [product, setProduct] = useState<ConvertedProductType | null>(null);
+  const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
   const { productId } = route.params;
 
   useEffect(() => {
@@ -33,6 +39,18 @@ export const ProductDetailsScreen = ({ route }: Props): JSX.Element => {
       setProduct(newProduct || null);
     }
   }, [data, productId]);
+
+  const onPressOption = () => setIsOptionSelected(!isOptionSelected);
+  const onAddProductToCart = () => {
+    if (!isSignedIn) {
+      navigation.navigate('Modal', { modalType: 'LOGIN' });
+    } else if (isOptionSelected) {
+      navigation.navigate('Modal', { modalType: 'SUCCESS' });
+      addProductToCart(product);
+    } else {
+      navigation.navigate('Modal', { modalType: 'SELECT_OPTION' });
+    }
+  };
 
   return (
     <ScrollView
@@ -52,17 +70,29 @@ export const ProductDetailsScreen = ({ route }: Props): JSX.Element => {
             name={product.name}
             newPrice={product.price}
             oldPrice={product.oldPrice}
+            discount={product.discount}
           />
-          <View style={styles.divider} />
+          <View style={effects.divider} />
           <Text style={styles.infoTitle}>Select Color</Text>
-          <Text style={styles.infoValue}>Blue</Text>
-          <View style={styles.divider} />
+          <Text
+            style={[
+              styles.optionValue,
+              isOptionSelected && styles.optionValueSelected,
+            ]}
+            onPress={onPressOption}>
+            Blue
+          </Text>
+          <View style={effects.divider} />
           <View>
             <Text style={styles.infoTitle}>Description</Text>
             <Text style={styles.descriptionText}>{product.description}</Text>
           </View>
           <View style={[styles.button, effects.shadow]}>
-            <Button title="Add to cart" color="#008ACE" />
+            <Button
+              title="Add to cart"
+              color="#008ACE"
+              onPress={onAddProductToCart}
+            />
           </View>
         </>
       ) : (

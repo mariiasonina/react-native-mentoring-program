@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList, ActivityIndicator } from 'react-native';
 import { ProductItem } from '@components/ProductItem/ProductItem';
-import { useData } from '@src/context/DataContext';
+import { useData } from '@src/context/DataContext/DataContext';
 import { ConvertedProductType } from '@src/dataConverters/convertProductsData';
 import { styles } from './styles';
 

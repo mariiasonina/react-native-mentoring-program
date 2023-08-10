@@ -8,8 +8,8 @@ import CartIcon from '@assets/images/icons/menu-cart.svg';
 import { MainScreen } from '@src/screens/MainScreen/MainScreen';
 import { ProfileScreen } from '@src/screens/ProfileScreen/ProfileScreen';
 import { WishListScreen } from '@src/screens/WishListScreen/WishListScreen';
-import { CartScreen } from '@src/screens/CartScreen/CartScreen';
 import { OrdersScreen } from '@src/screens/OrdersScreen/OrdersScreen';
+import { CartScreen } from '@src/screens/CartScreens/CartScreen';
 import { styles } from './styles';
 
 export const screens = {
@@ -20,6 +20,12 @@ export const screens = {
   orders: { name: 'Orders', title: 'My Orders' },
 };
 
+const headerRight = (navigation: any) => (
+  <View style={styles.headerRight}>
+    <ShoppingCartIcon onPress={() => navigation.navigate(screens.cart.name)} />
+  </View>
+);
+
 export const routes = [
   {
     name: screens.main.name,
@@ -28,11 +34,7 @@ export const routes = [
     headerTitle: () => (
       <Text style={styles.headerTitle}>{screens.main.title}</Text>
     ),
-    headerRight: () => (
-      <View style={styles.headerRight}>
-        <ShoppingCartIcon />
-      </View>
-    ),
+    headerRight,
     drawerLabelStyle: styles.drawerHeader,
   },
   {
@@ -42,11 +44,7 @@ export const routes = [
     headerTitle: () => (
       <Text style={styles.headerTitle}>{screens.profile.title}</Text>
     ),
-    headerRight: () => (
-      <View style={styles.headerRight}>
-        <ShoppingCartIcon />
-      </View>
-    ),
+    headerRight,
     drawerIcon: () => <ProfileIcon />,
     drawerLabelStyle: styles.drawerLabel,
   },
@@ -57,11 +55,7 @@ export const routes = [
     headerTitle: () => (
       <Text style={styles.headerTitle}>{screens.wishList.title}</Text>
     ),
-    headerRight: () => (
-      <View style={styles.headerRight}>
-        <ShoppingCartIcon />
-      </View>
-    ),
+    headerRight,
     drawerIcon: () => <WishListIcon />,
     drawerLabelStyle: styles.drawerLabel,
   },

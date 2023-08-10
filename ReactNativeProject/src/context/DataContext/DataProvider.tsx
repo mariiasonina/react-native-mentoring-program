@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { fetchData } from '@src/api/api';
 import {
   ConvertedProductsDataType,
@@ -6,11 +6,7 @@ import {
 } from '@src/dataConverters/convertProductsData';
 import DataContext from './DataContext';
 
-type Props = {
-  children: React.ReactNode;
-};
-
-const DataProvider = ({ children }: Props) => {
+const DataProvider = ({ children }: PropsWithChildren) => {
   const [data, setData] = useState<ConvertedProductsDataType>([]);
   const [refreshing, setRefreshing] = useState(false);
 

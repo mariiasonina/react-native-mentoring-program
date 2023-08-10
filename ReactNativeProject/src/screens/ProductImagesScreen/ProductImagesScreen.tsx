@@ -4,7 +4,7 @@ import { RouteProp } from '@react-navigation/native';
 import { Slider } from '@components/Slider/Slider';
 import { ConvertedImageDataType } from '@src/dataConverters/convertImagesData';
 import { Sizes } from '@src/dataConverters/constants';
-import { useData } from '@src/context/DataContext';
+import { useData } from '@src/context/DataContext/DataContext';
 import { RootStackParamList } from '@src/navigation/StackNavigator';
 import { styles } from './styles';
 

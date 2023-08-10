@@ -27,6 +27,10 @@ export type ConvertedProductType = {
   name: string;
   price: number;
   oldPrice: number;
+  delivery: number;
+  discount: number;
+  tax: number;
+  totalPrice: number;
   description: string;
   images: (ConvertedImageDataType & { id: string })[];
 };
@@ -54,13 +58,21 @@ export const convertProductsData = (
           url_size_278x371,
         };
       });
+      const delivery = Math.round(+price * 0.02);
+      const discount = +compare_at_price - +price;
+      const tax = Math.round(+price * 0.02);
+      const totalPrice = +price + delivery + tax;
 
       return {
         id,
         name,
         price: +price,
-        description,
         oldPrice: +compare_at_price,
+        delivery,
+        discount: discount > 0 ? discount : 0,
+        tax,
+        totalPrice,
+        description,
         images,
       };
     },
