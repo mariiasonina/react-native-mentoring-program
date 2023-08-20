@@ -12,4 +12,11 @@ export const styles = StyleSheet.create({
   productList: {
     padding: 10,
   },
+  product: {
+    width: '100%',
+    padding: 5,
+    flexGrow: 1,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 5,
+  },
 });

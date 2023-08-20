@@ -38,11 +38,6 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     paddingHorizontal: 15,
   },
-  productImage: {
-    alignSelf: 'center',
-    width: 100,
-    height: 100,
-  },
   securityBlock: {
     flexDirection: 'row',
     justifyContent: 'center',

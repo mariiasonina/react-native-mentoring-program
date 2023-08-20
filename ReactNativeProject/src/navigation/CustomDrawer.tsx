@@ -5,12 +5,27 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import { View, Text } from 'react-native';
+import Share from 'react-native-share';
 import EmailIcon from '@assets/images/icons/menu-email.svg';
 import PhoneIcon from '@assets/images/icons/menu-call.svg';
 import ShareIcon from '@assets/images/icons/menu-share.svg';
 import { styles } from './styles';
 
 export const CustomDrawer: FC<DrawerContentComponentProps> = props => {
+  const onShareLink = async () => {
+    try {
+      const options = {
+        title: 'Share Link',
+        message: 'Check out this awesome app!',
+        url: 'https://my-app.com',
+      };
+
+      await Share.open(options);
+    } catch (error) {
+      console.log('Error sharing:', error);
+    }
+  };
+
   return (
     <DrawerContentScrollView {...props}>
       {Object.entries(props.descriptors).map(
@@ -52,7 +67,7 @@ export const CustomDrawer: FC<DrawerContentComponentProps> = props => {
       <DrawerItem
         labelStyle={styles.drawerLabel}
         label="Share"
-        onPress={() => {}}
+        onPress={onShareLink}
         icon={ShareIcon}
       />
     </DrawerContentScrollView>

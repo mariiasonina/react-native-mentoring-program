@@ -10,7 +10,7 @@ type RenderProductProps = {
 };
 
 const renderProduct = ({ item }: RenderProductProps) => (
-  <ProductItem product={item} />
+  <ProductItem product={item} productStyle={styles.product} />
 );
 
 export const ProductList = (): JSX.Element => {

@@ -1,38 +1,39 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  orders: {
+  orderDetails: {
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
-  ordersContainer: {
+  orderDetailsContainer: {
     paddingHorizontal: 20,
     paddingVertical: 30,
     backgroundColor: '#FFFFFF',
     gap: 20,
   },
-  order: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 5,
-    padding: 10,
+  orderDetailsHeader: {
+    color: '#8F8F8F',
+    fontSize: 20,
+    fontWeight: '700',
   },
-  orderItem: {
+  orderDetailsItem: {
+    borderRadius: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: '#FFFFFF',
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#C3C3C3',
   },
-  orderItemName: {
+  orderDetailsItemName: {
     color: '#4A4A4A',
+    marginBottom: 10,
   },
-  orderItemDate: {
+  orderDetailsItemValue: {
     color: '#8F8F8F',
   },
-  viewOrderText: {
-    paddingTop: 20,
-    color: '#008ACE',
-    fontSize: 15,
+  orderDetailsItemTotalPrice: {
+    color: '#4A4A4A',
+    fontWeight: '700',
+    marginTop: 10,
   },
 });

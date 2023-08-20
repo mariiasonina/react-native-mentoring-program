@@ -1,22 +1,18 @@
 import React, { PropsWithChildren, Reducer, useMemo, useReducer } from 'react';
-import { getToken } from '@src/api/api';
-import AuthContext, { AuthData } from './AuthContext';
+import { createAccount, getToken } from '@src/api/api';
+import AuthContext, { UserData } from './AuthContext';
 
 type StateProps = {
   isSignIn: boolean;
-  userToken: string | null;
+  userToken: string;
 };
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer<Reducer<StateProps, any>>(
     (prevState, action) => {
       switch (action.type) {
-        case 'RESTORE_TOKEN':
-          return {
-            ...prevState,
-            userToken: action.token,
-          };
         case 'SIGN_IN':
+        case 'SIGN_UP':
           return {
             ...prevState,
             isSignIn: true,
@@ -26,7 +22,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
           return {
             ...prevState,
             isSignIn: false,
-            userToken: null,
+            userToken: '',
           };
         default:
           return { ...prevState };
@@ -34,26 +30,45 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     },
     {
       isSignIn: false,
-      userToken: null,
+      userToken: '',
     },
   );
 
   const authContext = useMemo(
     () => ({
-      signIn: async (data: AuthData) => {
+      signIn: async (data: UserData) => {
         const token = await getToken(data);
 
-        dispatch({ type: 'SIGN_IN', token: token });
+        if (!token.error) {
+          dispatch({
+            type: 'SIGN_IN',
+            token: token.access_token,
+          });
+        }
+
+        return token;
       },
-      signOut: () => dispatch({ type: 'SIGN_OUT' }),
-      signUp: async (data: AuthData) => {
-        const token = await getToken(data);
+      signOut: async () => {
+        dispatch({ type: 'SIGN_OUT' });
+      },
+      signUp: async (data: Required<UserData>) => {
+        const result = await createAccount(data);
 
-        dispatch({ type: 'SIGN_IN', token });
+        if (!result.error) {
+          const token = await getToken({
+            email: data.email,
+            userPassword: data.userPassword,
+          });
+
+          dispatch({ type: 'SIGN_UP', token: token.access_token });
+        }
+
+        return result;
       },
       isSignedIn: state.isSignIn,
+      userToken: state.userToken,
     }),
-    [state.isSignIn],
+    [state.isSignIn, state.userToken],
   );
 
   return (

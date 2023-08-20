@@ -1,4 +1,9 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { fetchData } from '@src/api/api';
 import {
   ConvertedProductsDataType,
@@ -8,24 +13,44 @@ import DataContext from './DataContext';
 
 const DataProvider = ({ children }: PropsWithChildren) => {
   const [data, setData] = useState<ConvertedProductsDataType>([]);
+  const [filteredData, setFilteredData] = useState<ConvertedProductsDataType>(
+    [],
+  );
   const [refreshing, setRefreshing] = useState(false);
 
-  const refreshData = async () => {
+  const refreshData = useCallback(async (filter?: string) => {
     setRefreshing(true);
 
-    const responseData = await fetchData();
+    const responseData = await fetchData(filter);
+    const convertedData = convertProductsData(
+      responseData.data,
+      responseData.included,
+    );
 
-    setData(convertProductsData(responseData.data, responseData.included));
+    if (filter) {
+      setFilteredData(convertedData);
+    } else {
+      setData(convertedData);
+    }
 
     setRefreshing(false);
-  };
+  }, []);
+
+  const resetFilteredData = useCallback(() => setFilteredData([]), []);
 
   useEffect(() => {
     refreshData();
-  }, []);
+  }, [refreshData]);
 
   return (
-    <DataContext.Provider value={{ data, onRefresh: refreshData, refreshing }}>
+    <DataContext.Provider
+      value={{
+        data,
+        filteredData,
+        resetFilteredData,
+        onRefresh: refreshData,
+        refreshing,
+      }}>
       {children}
     </DataContext.Provider>
   );

@@ -17,21 +17,30 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   header: {
+    fontSize: 40,
+    color: '#00A8F3',
+    fontWeight: '700',
+    paddingBottom: 40,
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+    textAlign: 'center',
+  },
+  subHeader: {
     fontSize: 20,
     fontWeight: '700',
     color: '#8F8F8F',
-    paddingTop: 10,
+    paddingTop: 30,
     textAlign: 'center',
   },
   text: {
     fontSize: 15,
     fontWeight: '400',
     color: '#8F8F8F',
-    paddingTop: 5,
+    paddingVertical: 5,
     paddingBottom: 30,
     textAlign: 'center',
   },
-  signUpText: {
+  signUpHintText: {
     fontSize: 15,
     fontWeight: '400',
     color: '#00A8F3',

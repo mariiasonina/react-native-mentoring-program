@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Pressable } from 'react-native';
+import { Image, Pressable, StyleProp, ViewStyle } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { ProductMainInfo } from '@components/ProductMainInfo/ProductMainInfo';
 import { effects } from '@styles/effects';
@@ -9,15 +9,16 @@ import { styles } from './styles';
 
 type Props = {
   product: ConvertedProductType;
+  productStyle: StyleProp<ViewStyle>;
 };
 
-export const ProductItem = ({ product }: Props): JSX.Element => {
+export const ProductItem = ({ product, productStyle }: Props): JSX.Element => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { name, price, oldPrice, discount, images, id } = product;
 
   return (
     <Pressable
-      style={[styles.product, effects.shadow]}
+      style={[productStyle, effects.shadow]}
       onPress={() => navigation.navigate('ProductDetails', { productId: id })}>
       <Image
         style={styles.productImage}

@@ -12,10 +12,10 @@ export const LoginFirst = () => {
   return (
     <InfoCard
       icon={<PersonIcon />}
-      header="Login First!"
+      subHeader="Login First!"
       text="Login first to view your cart"
       buttonText="Login now"
-      isSignIn={false}
+      isShowSignUpHint={true}
       onPress={onPress}
     />
   );

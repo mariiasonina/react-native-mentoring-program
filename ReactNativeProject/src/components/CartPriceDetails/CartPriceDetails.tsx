@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { CartPriceDetailsType } from '@src/context/AppContext/AppProvider';
+import { CartPriceDetailsType } from '@src/context/AppContext/types';
 import { effects } from '@src/styles/effects';
 import { styles } from './styles';
 
