@@ -1,11 +1,15 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-	productListContainer: {
-		paddingVertical: 10,
-		flex: 1,
-	},
-	productList: {
-		paddingHorizontal: 10,
-	},
+  loader: {
+    marginVertical: 10,
+  },
+  columnWrapper: {
+    padding: 10,
+    gap: 20,
+    width: '50%',
+  },
+  productList: {
+    padding: 10,
+  },
 });
