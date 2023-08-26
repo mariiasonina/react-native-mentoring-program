@@ -45,7 +45,7 @@ export const SignInScreen = ({ navigation }: Props) => {
       isSkipLogin={true}>
       <AnimatedInput
         value={user.email}
-        label="Emai Address"
+        label="Email Address"
         storageKey="email"
         onChange={changeUserField}
       />
