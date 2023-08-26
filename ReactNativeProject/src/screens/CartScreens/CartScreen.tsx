@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Button, ScrollView } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
+import Analytics from 'appcenter-analytics';
 import { useAuth } from '@src/context/AuthContext/AuthContext';
 import { LoginFirst } from '@src/components/LoginFirst/LoginFirst';
 import { CartPriceDetails } from '@src/components/CartPriceDetails/CartPriceDetails';
@@ -31,6 +32,7 @@ export const CartScreen = ({ navigation }: Props) => {
     cartPriceDetails,
     addOrder,
     clearCart,
+    user,
   } = useAppData();
 
   if (!isSignedIn) {
@@ -46,7 +48,7 @@ export const CartScreen = ({ navigation }: Props) => {
   const onRemoveProductCardFromCart = (productId: string) =>
     removeProductCardFromCart(productId);
 
-  const onProceedToPayment = () => {
+  const onProceedToPayment = async () => {
     addOrder({
       id: Math.floor(Math.random() * Date.now()).toString(),
       date: getFormatedDate(new Date()),
@@ -56,6 +58,11 @@ export const CartScreen = ({ navigation }: Props) => {
     });
     clearCart();
     navigation.navigate('OrderConfirmation');
+
+    await Analytics.trackEvent('onConfirmOrder', {
+      TotalPrice: `${cartPriceDetails.totalPrice}$`,
+      UserName: user.userName,
+    });
   };
 
   if (!cartProducts.length) {

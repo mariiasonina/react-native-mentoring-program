@@ -5,11 +5,13 @@ import OrdersIcon from '@assets/images/icons/menu-orders.svg';
 import ProfileIcon from '@assets/images/icons/menu-profile.svg';
 import WishListIcon from '@assets/images/icons/menu-wish-list.svg';
 import CartIcon from '@assets/images/icons/menu-cart.svg';
+import Crash from '@assets/images/icons/crash.svg';
 import { MainScreen } from '@src/screens/MainScreen/MainScreen';
 import { ProfileScreen } from '@src/screens/ProfileScreen/ProfileScreen';
 import { WishListScreen } from '@src/screens/WishListScreen/WishListScreen';
 import { OrdersScreen } from '@src/screens/OrdersScreen/OrdersScreen';
 import { CartScreen } from '@src/screens/CartScreens/CartScreen';
+import { CrashTestScreen } from '@src/screens/CrashTestScreen/CrashTestScreen';
 import { styles } from './styles';
 
 export const screens = {
@@ -18,6 +20,7 @@ export const screens = {
   wishList: { name: 'WishList', title: 'My Wish List' },
   cart: { name: 'Cart', title: 'My Cart' },
   orders: { name: 'Orders', title: 'My Orders' },
+  crash: { name: 'Crash Test', title: 'Crash Test' },
 };
 
 const headerRight = (navigation: any) => (
@@ -78,6 +81,18 @@ export const routes = [
     ),
     headerRight,
     drawerIcon: () => <OrdersIcon />,
+    drawerLabelStyle: styles.drawerLabel,
+  },
+  // only for testing
+  {
+    name: screens.crash.name,
+    title: screens.crash.title,
+    component: CrashTestScreen,
+    headerTitle: () => (
+      <Text style={styles.headerTitle}>{screens.crash.title}</Text>
+    ),
+    headerRight,
+    drawerIcon: () => <Crash />,
     drawerLabelStyle: styles.drawerLabel,
   },
 ];
