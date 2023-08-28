@@ -54,6 +54,8 @@ function App(): JSX.Element {
 
 export default App;
 
+// export { default } from './.storybook';
+
 const styles = StyleSheet.create({
   app: {
     flex: 1,
