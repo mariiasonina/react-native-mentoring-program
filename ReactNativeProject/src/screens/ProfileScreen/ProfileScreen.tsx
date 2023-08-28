@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Button,
@@ -6,7 +6,6 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 import {
   ImageLibraryOptions,
   ImagePickerResponse,
@@ -55,8 +54,11 @@ export const ProfileScreen = ({ navigation }: Props) => {
     getUriData();
   }, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useFocusEffect(useCallback(() => () => setProfileData(profileState), []));
+  useEffect(() => {
+    return navigation.addListener('blur', () => {
+      setProfileData(profileState);
+    });
+  }, [navigation, profileState, setProfileData]);
 
   const onLogout = () => {
     navigation.navigate('Modal', { modalType: 'LOGOUT' });

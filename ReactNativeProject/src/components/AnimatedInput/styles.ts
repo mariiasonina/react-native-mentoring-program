@@ -16,5 +16,6 @@ export const styles = StyleSheet.create({
   input: {
     fontSize: 15,
     marginLeft: 15,
+    paddingVertical: 10,
   },
 });

@@ -8,7 +8,6 @@ import { useAuth } from '@src/context/AuthContext/AuthContext';
 import FavoriteIcon from '@assets/images/icons/favorite.svg';
 import ShoppingCartIcon from '@assets/images/icons/shopping-cart.svg';
 import ArrowBackIcon from '@assets/images/icons/arrow-back.svg';
-import SearchIcon from '@assets/images/icons/search.svg';
 import { ModalScreen } from '@src/screens/ModalScreen/ModalScreen';
 import { CartScreen } from '@src/screens/CartScreens/CartScreen';
 import { SignInScreen } from '@src/screens/SignInScreen/SignInScreen';
@@ -104,30 +103,29 @@ const StackNavigator = () => {
           component={OrderConfirmationScreen}
           options={{ headerShown: false }}
         />
-      </Stack.Group>
-      <Stack.Group
-        screenOptions={({ navigation }) => ({
-          presentation: 'modal',
-          cardStyle: styles.modal,
-          headerRight: () => headerRight(navigation, SearchIcon, 'Search'),
-        })}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
-
-      {!isSignedIn && (
-        <Stack.Group>
+        {!isSignedIn && (
           <Stack.Screen
             options={{ headerShown: false }}
             name="SignIn"
             component={SignInScreen}
           />
+        )}
+        {!isSignedIn && (
           <Stack.Screen
             options={{ headerShown: false }}
             name="SignUp"
             component={SignUpScreen}
           />
-        </Stack.Group>
-      )}
+        )}
+      </Stack.Group>
+      <Stack.Group
+        screenOptions={{
+          presentation: 'modal',
+          cardStyle: styles.modal,
+          headerShown: false,
+        }}>
+        <Stack.Screen name="Modal" component={ModalScreen} />
+      </Stack.Group>
     </Stack.Navigator>
   );
 };

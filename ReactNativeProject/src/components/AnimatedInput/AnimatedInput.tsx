@@ -1,5 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import { TextInput, Easing, Animated } from 'react-native';
+import React, { useEffect } from 'react';
+import { TextInput } from 'react-native';
+import Animated, {
+  useSharedValue,
+  withSpring,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 import { styles } from './styles';
 
 type Props<T> = {
@@ -17,60 +22,38 @@ export const AnimatedInput = <T,>({
   storageKey,
   onChange,
 }: Props<T>) => {
-  const animatedValue = useRef(new Animated.Value(0));
-  const prevValueState = useRef(value);
+  const translateY = useSharedValue(8);
+  const color = useSharedValue('#8F8F8F');
+  const fontSize = useSharedValue(15);
 
   useEffect(() => {
-    // This condition ensures that the label moves up only one time
-    // when the component has mounted and the input value is not empty.
-    if (!prevValueState.current && value) {
-      prevValueState.current = value;
+    if (fontSize.value === 15 && value) {
       onFocus();
     }
-  }, [value]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fontSize.value, value]);
 
   const onChangeText = (newValue: string) => {
     onChange(storageKey, newValue);
   };
 
-  const animatedLabelStyles = {
-    transform: [
-      {
-        translateY: animatedValue?.current?.interpolate({
-          inputRange: [0, 1],
-          outputRange: [7, -9],
-          extrapolate: 'clamp',
-        }),
-      },
-    ],
-    fontSize: animatedValue?.current?.interpolate({
-      inputRange: [0, 1],
-      outputRange: [15, 12],
-      extrapolate: 'clamp',
-    }),
-    color: animatedValue?.current?.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['#8F8F8F', '#4A4A4A'],
-    }),
-  };
+  const animatedLabelStyles = useAnimatedStyle(() => ({
+    transform: [{ translateY: withSpring(translateY.value) }],
+    color: color.value,
+    fontSize: fontSize.value,
+  }));
 
   const onFocus = () => {
-    Animated.timing(animatedValue?.current, {
-      toValue: 1,
-      duration: 500,
-      easing: Easing.bezier(0.4, 0.0, 0.2, 1),
-      useNativeDriver: false,
-    }).start();
+    translateY.value = withSpring(-10);
+    color.value = withSpring('#4A4A4A');
+    fontSize.value = withSpring(12);
   };
 
   const onBlur = () => {
     if (!value) {
-      Animated.timing(animatedValue?.current, {
-        toValue: 0,
-        duration: 500,
-        easing: Easing.bezier(0.4, 0.0, 0.2, 1),
-        useNativeDriver: false,
-      }).start();
+      translateY.value = withSpring(8);
+      color.value = withSpring('#8F8F8F');
+      fontSize.value = withSpring(15);
     }
   };
 

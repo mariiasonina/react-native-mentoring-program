@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PermissionsAndroid } from 'react-native';
+import { PermissionsAndroid, Platform } from 'react-native';
 import Geolocation, { GeoCoordinates } from 'react-native-geolocation-service';
 import MapView, { Marker } from 'react-native-maps';
 import { styles } from './styles';
@@ -13,21 +13,31 @@ export const MapScreen = () => {
 
   const requestLocationPermission = async () => {
     try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'Location Permission',
-          message: 'This app needs access to your location.',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
-      );
+      if (Platform.OS === 'android') {
+        const hasLocationPermission = await PermissionsAndroid.check(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        );
 
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        setIsLocationPermission(true);
-      } else {
-        setIsLocationPermission(false);
+        if (hasLocationPermission) {
+          return;
+        }
+
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Permission',
+            message: 'This app needs access to your location.',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          },
+        );
+
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          setIsLocationPermission(true);
+        } else {
+          setIsLocationPermission(false);
+        }
       }
     } catch (err) {
       console.warn(err);
