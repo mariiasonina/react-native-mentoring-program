@@ -1,8 +1,8 @@
 import React from 'react';
-import { Image, View, Text, Button } from 'react-native';
+import { View, Text, Button, ScrollView } from 'react-native';
+import { NavigationProp } from '@react-navigation/native';
 import { useAuth } from '@src/context/AuthContext/AuthContext';
 import { LoginFirst } from '@src/components/LoginFirst/LoginFirst';
-import { ProductMainInfo } from '@src/components/ProductMainInfo/ProductMainInfo';
 import { CartPriceDetails } from '@src/components/CartPriceDetails/CartPriceDetails';
 import IncreaseIcon from '@assets/images/icons/plus.svg';
 import DecreaseIcon from '@assets/images/icons/minus.svg';
@@ -10,12 +10,18 @@ import BusketIcon from '@assets/images/icons/busket.svg';
 import SecurityIcon from '@assets/images/icons/security.svg';
 import { effects } from '@src/styles/effects';
 import { useAppData } from '@src/context/AppContext/AppContext';
-import { EmptyScreen } from './EmptyCartScreen';
-import { styles } from './styles';
-import { ScrollView } from 'react-native-gesture-handler';
 import { ConvertedProductType } from '@src/dataConverters/convertProductsData';
+import { RootStackParamList } from '@src/navigation/StackNavigator';
+import { ProductItem } from '@src/components/ProductItem/ProductItem';
+import { getFormatedDate } from '@src/utils/getFormatedDate';
+import { EmptyCartScreen } from './EmptyCartScreen';
+import { styles } from './styles';
 
-export const CartScreen = (): JSX.Element => {
+type Props = {
+  navigation: NavigationProp<RootStackParamList>;
+};
+
+export const CartScreen = ({ navigation }: Props) => {
   const { isSignedIn } = useAuth();
   const {
     addProductToCart,
@@ -23,6 +29,8 @@ export const CartScreen = (): JSX.Element => {
     cartProducts,
     removeProductCardFromCart,
     cartPriceDetails,
+    addOrder,
+    clearCart,
   } = useAppData();
 
   if (!isSignedIn) {
@@ -31,12 +39,30 @@ export const CartScreen = (): JSX.Element => {
 
   const onAddProductToCart = (product: ConvertedProductType) =>
     addProductToCart(product);
+
   const onRemoveProductFromCart = (productId: string) =>
     removeProductFromCart(productId);
+
   const onRemoveProductCardFromCart = (productId: string) =>
     removeProductCardFromCart(productId);
 
-  return cartProducts.length ? (
+  const onProceedToPayment = () => {
+    addOrder({
+      id: Math.floor(Math.random() * Date.now()).toString(),
+      date: getFormatedDate(new Date()),
+      products: cartProducts,
+      totalAmount: cartPriceDetails.totalPrice,
+      status: 'In-Processing',
+    });
+    clearCart();
+    navigation.navigate('OrderConfirmation');
+  };
+
+  if (!cartProducts.length) {
+    return <EmptyCartScreen />;
+  }
+
+  return (
     <ScrollView
       contentContainerStyle={styles.cartContainer}
       style={styles.cart}>
@@ -44,20 +70,7 @@ export const CartScreen = (): JSX.Element => {
         <View
           key={product.id}
           style={[styles.productContainer, effects.shadow]}>
-          <View style={styles.product}>
-            <Image
-              style={styles.productImage}
-              source={{
-                uri: `https://demo.spreecommerce.org${product.images[0].url_size_100x100}`,
-              }}
-            />
-            <ProductMainInfo
-              name={product.name}
-              newPrice={product.price}
-              oldPrice={product.oldPrice}
-              discount={product.discount}
-            />
-          </View>
+          <ProductItem product={product} productStyle={styles.product} />
           <View style={styles.controlPanel}>
             <View style={styles.countControl}>
               <IncreaseIcon onPress={() => onAddProductToCart(product)} />
@@ -79,9 +92,11 @@ export const CartScreen = (): JSX.Element => {
           {'Safe and Secure Payments\n100% Authentic Ptoducts'}
         </Text>
       </View>
-      <Button title="Proceed to payment" color="#008ACE" onPress={() => {}} />
+      <Button
+        title="Proceed to payment"
+        color="#008ACE"
+        onPress={onProceedToPayment}
+      />
     </ScrollView>
-  ) : (
-    <EmptyScreen />
   );
 };

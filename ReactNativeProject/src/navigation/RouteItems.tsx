@@ -76,6 +76,7 @@ export const routes = [
     headerTitle: () => (
       <Text style={styles.headerTitle}>{screens.orders.title}</Text>
     ),
+    headerRight,
     drawerIcon: () => <OrdersIcon />,
     drawerLabelStyle: styles.drawerLabel,
   },

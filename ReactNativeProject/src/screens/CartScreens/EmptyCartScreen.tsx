@@ -4,7 +4,7 @@ import OrderIcon from '@assets/images/icons/order.svg';
 import { InfoCard } from '@src/components/InfoCard/InfoCard';
 import { RootStackParamList } from '@src/navigation/StackNavigator';
 
-export const EmptyScreen = (): JSX.Element => {
+export const EmptyCartScreen = (): JSX.Element => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const onPress = () => navigation.navigate('Main');
@@ -12,10 +12,9 @@ export const EmptyScreen = (): JSX.Element => {
   return (
     <InfoCard
       icon={<OrderIcon />}
-      header="Your Cart is Empty!"
+      subHeader="Your Cart is Empty!"
       text="Add product in your cart now"
       buttonText="Shop now"
-      isSignIn={true}
       onPress={onPress}
     />
   );

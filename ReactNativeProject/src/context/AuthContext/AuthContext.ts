@@ -1,15 +1,18 @@
 import { createContext, useContext } from 'react';
 
-export type AuthData = {
-  userName: string;
+export type UserData = {
+  userName?: string;
+  email: string;
   userPassword: string;
+  passwordConfirmation?: string;
 };
 
 type AuthContextType = {
-  signIn: (data: AuthData) => Promise<void>;
+  signIn: (data: UserData) => Promise<void>;
   signOut: () => void;
-  signUp: (data: AuthData) => Promise<void>;
+  signUp: (data: Required<UserData>) => Promise<void>;
   isSignedIn: boolean;
+  userToken: string;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -17,6 +20,7 @@ const AuthContext = createContext<AuthContextType>({
   signOut: () => {},
   signUp: async () => {},
   isSignedIn: false,
+  userToken: '',
 });
 
 export const useAuth = () => useContext(AuthContext);

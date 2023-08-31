@@ -6,9 +6,9 @@ import WarningIcon from '@assets/images/icons/warning.svg';
 type ModalsType = {
   [key: string]: {
     header?: string;
-    text: string;
+    text?: string;
     icon: React.ReactElement;
-    buttons: { title: string; action: string }[];
+    buttons: { title: string; action: string; isRedColor?: boolean }[];
   };
 };
 
@@ -32,5 +32,21 @@ export const MODALS: ModalsType = {
       { title: 'SIGN IN', action: 'GO_SIGN_IN' },
       { title: 'SIGN UP', action: 'GO_SIGN_UP' },
     ],
+  },
+  LOGOUT: {
+    text: 'Are you sure you want to logout?',
+    icon: <WarningIcon />,
+    buttons: [
+      { title: 'CANCEL', action: 'GO_BACK', isRedColor: true },
+      { title: 'LOGOUT', action: 'LOGOUT' },
+    ],
+  },
+  SIGN_UP_ERROR: {
+    icon: <FailureIcon />,
+    buttons: [{ title: 'OK', action: 'GO_SIGN_UP' }],
+  },
+  SIGN_IN_ERROR: {
+    icon: <FailureIcon />,
+    buttons: [{ title: 'OK', action: 'GO_SIGN_IN' }],
   },
 };

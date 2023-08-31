@@ -25,7 +25,7 @@ type Props = {
 };
 
 export const ProductDetailsScreen = ({ route, navigation }: Props) => {
-  const { data, onRefresh, refreshing } = useData();
+  const { filteredData, data, onRefresh, refreshing } = useData();
   const { addProductToCart } = useAppData();
   const { isSignedIn } = useAuth();
   const [product, setProduct] = useState<ConvertedProductType | null>(null);
@@ -34,11 +34,19 @@ export const ProductDetailsScreen = ({ route, navigation }: Props) => {
 
   useEffect(() => {
     if (data?.length) {
-      const newProduct = data.find(({ id }) => id === productId);
+      const targetProduct = data.find(({ id }) => id === productId);
 
-      setProduct(newProduct || null);
+      if (!targetProduct) {
+        const targetFilteredProduct = filteredData.find(
+          ({ id }) => id === productId,
+        );
+
+        setProduct(targetFilteredProduct || null);
+      } else {
+        setProduct(targetProduct || null);
+      }
     }
-  }, [data, productId]);
+  }, [data, filteredData, productId]);
 
   const onPressOption = () => setIsOptionSelected(!isOptionSelected);
   const onAddProductToCart = () => {

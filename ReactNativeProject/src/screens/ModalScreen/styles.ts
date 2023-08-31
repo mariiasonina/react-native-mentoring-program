@@ -39,6 +39,9 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: 'center',
   },
+  redButton: {
+    backgroundColor: '#DD6B55',
+  },
   buttonText: {
     fontSize: 15,
     fontWeight: '500',
