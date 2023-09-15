@@ -28,7 +28,7 @@ export const OrderDetails = ({ orderDetails }: Props) => {
         <Text style={styles.orderDetailsValue}>{date}</Text>
       </View>
       <View style={styles.orderDetailsItem}>
-        <Text>Total Ammount</Text>
+        <Text>Total Amount</Text>
         <Text style={styles.orderDetailsValue}>${totalAmount}</Text>
       </View>
       <View style={styles.orderDetailsItem}>
