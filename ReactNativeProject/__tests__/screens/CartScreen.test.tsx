@@ -1,39 +1,28 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { CartScreen } from '@src/screens/CartScreens/CartScreen';
-import { CartProductsType } from '@src/context/AppContext/types';
+import { useAuth } from '@src/context/AuthContext/AuthContext';
 import Analytics from 'appcenter-analytics';
+import { useAppData } from '@src/context/AppContext/AppContext';
 
-let mockUseAuth: jest.Mock;
-let mockAddOrder: jest.Mock;
-let mockClearCart: jest.Mock;
-let mockCartProducts: CartProductsType = [];
+const mockAppData = {
+  addProductToCart: jest.fn(),
+  removeProductFromCart: jest.fn(),
+  cartProducts: [],
+  removeProductCardFromCart: jest.fn(),
+  cartPriceDetails: {},
+  addOrder: jest.fn(),
+  clearCart: jest.fn(),
+  user: { userName: 'testUser' },
+};
 
-jest.mock('@src/context/AuthContext/AuthContext', () => {
-  mockUseAuth = jest.fn();
-
-  return {
-    useAuth: mockUseAuth.mockReturnValue({
-      isSignedIn: true,
-    }),
-  };
-});
+jest.mock('@src/context/AuthContext/AuthContext', () => ({
+  useAuth: jest.fn(),
+}));
 
 jest.mock('@src/context/AppContext/AppContext', () => {
-  mockAddOrder = jest.fn();
-  mockClearCart = jest.fn();
-
   return {
-    useAppData: () => ({
-      addProductToCart: jest.fn(),
-      removeProductFromCart: jest.fn(),
-      cartProducts: mockCartProducts,
-      removeProductCardFromCart: jest.fn(),
-      cartPriceDetails: {},
-      addOrder: mockAddOrder,
-      clearCart: mockClearCart,
-      user: { userName: 'testUser' },
-    }),
+    useAppData: jest.fn(),
   };
 });
 
@@ -60,24 +49,25 @@ describe('CartScreen', () => {
   });
 
   it('should render the LoginFirst component when user is not signed in', () => {
-    mockUseAuth.mockReturnValue({
+    (useAuth as jest.Mock).mockReturnValueOnce({
       isSignedIn: false,
     });
+
+    (useAppData as jest.Mock).mockReturnValueOnce({ ...mockAppData });
 
     const { getByText } = render(<CartScreen navigation={navigation} />);
     expect(getByText('Login First!')).toBeDefined();
   });
 
   it('should render the EmptyCartScreen when the cart is empty', () => {
-    mockUseAuth.mockReturnValue({
+    (useAuth as jest.Mock).mockReturnValueOnce({
       isSignedIn: true,
     });
 
-    jest.mock('@src/context/AppContext/AppContext', () => ({
-      useAppData: () => ({
-        cartProducts: [],
-      }),
-    }));
+    (useAppData as jest.Mock).mockReturnValueOnce({
+      ...mockAppData,
+      cartProducts: [],
+    });
 
     const { getByText } = render(<CartScreen navigation={navigation} />);
 
@@ -85,11 +75,11 @@ describe('CartScreen', () => {
   });
 
   it('should render the cart products when the cart is not empty', () => {
-    mockUseAuth.mockReturnValue({
+    (useAuth as jest.Mock).mockReturnValueOnce({
       isSignedIn: true,
     });
 
-    mockCartProducts = [
+    const mockCartProducts = [
       {
         delivery: 1,
         description: '',
@@ -132,11 +122,10 @@ describe('CartScreen', () => {
       },
     ];
 
-    jest.mock('@src/context/AppContext/AppContext', () => ({
-      useAppData: () => ({
-        cartProducts: mockCartProducts,
-      }),
-    }));
+    (useAppData as jest.Mock).mockReturnValueOnce({
+      ...mockAppData,
+      cartProducts: mockCartProducts,
+    });
 
     const { getByText } = render(<CartScreen navigation={navigation} />);
 
@@ -147,11 +136,11 @@ describe('CartScreen', () => {
 
   it('should call onProceedToPayment when the "Proceed to payment" button is pressed', () => {
     jest.spyOn(Analytics, 'trackEvent').mockResolvedValue();
-    mockUseAuth.mockReturnValue({
+    (useAuth as jest.Mock).mockReturnValueOnce({
       isSignedIn: true,
     });
 
-    mockCartProducts = [
+    const mockCartProducts = [
       {
         delivery: 1,
         description: '',
@@ -174,11 +163,15 @@ describe('CartScreen', () => {
       },
     ];
 
-    jest.mock('@src/context/AppContext/AppContext', () => ({
-      useAppData: () => ({
-        cartProducts: mockCartProducts,
-      }),
-    }));
+    const mockAddOrder = jest.fn();
+    const mockClearCart = jest.fn();
+
+    (useAppData as jest.Mock).mockReturnValueOnce({
+      ...mockAppData,
+      addOrder: mockAddOrder,
+      clearCart: mockClearCart,
+      cartProducts: mockCartProducts,
+    });
 
     const { getByText } = render(<CartScreen navigation={navigation} />);
 

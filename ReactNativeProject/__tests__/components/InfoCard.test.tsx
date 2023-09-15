@@ -1,11 +1,12 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { InfoCard } from '@src/components/InfoCard/InfoCard';
+import { useNavigation } from '@react-navigation/native';
 import { Text } from 'react-native';
 
 jest.mock('@react-navigation/native', () => {
   return {
-    useNavigation: () => ({
+    useNavigation: jest.fn().mockReturnValue({
       ...jest.requireActual('@react-navigation/native'),
       navigate: jest.fn(),
     }),
@@ -15,6 +16,10 @@ jest.mock('@react-navigation/native', () => {
 const CustomIcon = () => <Text>Custom Icon</Text>;
 
 describe('InfoCard', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render the component with props', () => {
     const { getByText } = render(
       <InfoCard
@@ -66,7 +71,10 @@ describe('InfoCard', () => {
   });
 
   it('should navigate to SignUp when the sign-up hint is pressed', () => {
-    const onPressMock = jest.fn();
+    const navigate = jest.fn();
+
+    (useNavigation as jest.Mock).mockReturnValueOnce({ navigate });
+
     const { getByText } = render(
       <InfoCard
         icon={<CustomIcon />}
@@ -74,13 +82,13 @@ describe('InfoCard', () => {
         text="Card Text"
         buttonText="Button Text"
         isShowSignUpHint={true}
-        onPress={onPressMock}
+        onPress={() => {}}
       />,
     );
 
     const signUpHintElement = getByText('New here? Sign Up');
     fireEvent.press(signUpHintElement);
 
-    expect(onPressMock).not.toHaveBeenCalled();
+    expect(navigate).toHaveBeenCalledWith('SignUp');
   });
 });
